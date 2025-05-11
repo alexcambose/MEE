@@ -1,36 +1,32 @@
 import {
-  createMeeClient,
-  toMultichainNexusAccount,
-  mcUSDC,
-  mcAaveV3Pool,
-  runtimeERC20BalanceOf,
   AavePoolAbi,
+  createMeeClient,
+  mcAaveV3Pool,
+  mcUSDC,
+  runtimeERC20BalanceOf,
   toFeeToken,
-  greaterThanOrEqualTo,
+  toMultichainNexusAccount,
 } from '@biconomy/abstractjs';
 
-import {
-  formatEther,
-  createWalletClient,
-  http,
-  parseEther,
-  parseUnits,
-  Account,
-  PrivateKeyAccount,
-  WalletClient,
-  Address,
-} from 'viem';
-import { privateKeyToAccount } from 'viem/accounts';
-import { base } from 'viem/chains';
-import { transferUsdc, fundEoaWithUsdc, getErc20Balance } from './utils.ts';
-import { eoaAccount, publicClient } from './client.ts';
 import chalk from 'chalk';
 import {
+  Address,
+  createWalletClient,
+  formatEther,
+  http,
+  parseUnits,
+  PrivateKeyAccount,
+  WalletClient,
+} from 'viem';
+import { base } from 'viem/chains';
+import { eoaAccount, publicClient } from './client.ts';
+import {
+  AUSDC_ADDRESS,
   MEE_CLIENT_URL,
   RPC_URL,
   USDC_ADDRESS,
-  AUSDC_ADDRESS,
 } from './constants.ts';
+import { fundEoaWithUsdc, getErc20Balance, transferUsdc } from './utils.ts';
 
 const initEoa = async () => {
   const EOA_MIN_USDC_BALANCE = 1000;
@@ -39,11 +35,11 @@ const initEoa = async () => {
   let balance = await getErc20Balance(USDC_ADDRESS, eoaAccount.address);
   if (balance < EOA_MIN_USDC_BALANCE) {
     console.log(
-      chalk.bgYellow(
+      chalk.gray(
         `EOA USDC Balance (${balance} USDC) is less than ${EOA_MIN_USDC_BALANCE} USDC. Funding EOA with USDC...`
       )
     );
-    await fundEoaWithUsdc(eoaAccount.address, EOA_MIN_USDC_BALANCE);
+    await fundEoaWithUsdc(eoaAccount.address, EOA_MIN_USDC_BALANCE * 10); // arbitrary multiplier so the account has enough funds
     balance = await getErc20Balance(USDC_ADDRESS, eoaAccount.address);
   }
   console.log(chalk.gray(`EOA USDC Balance: ${balance} USDC`));
@@ -128,10 +124,14 @@ const main = async () => {
     mcNexus.addressOn(base.id, true)
   );
 
-  const usdcAmount = '2.5';
+  const usdcAmount = '10';
   const amountConsumed = parseUnits(usdcAmount, 6);
 
-  console.log(chalk.bgMagenta(`Triggering orchestration...`));
+  console.log(
+    chalk.bgMagenta(
+      `Triggering orchestration... Sending ${usdcAmount} USDC to Aave`
+    )
+  );
   /**
    * TX #1
    * Approve Aave to spend USDC
@@ -226,12 +226,6 @@ const main = async () => {
   await printAUSDCBalances(
     eoaAccount.address,
     mcNexus.addressOn(base.id, true)
-  );
-  console.log(
-    'EOA USDC Balance:',
-    await getErc20Balance(USDC_ADDRESS, eoaAccount.address),
-    'Nexus USDC Balance:',
-    await getErc20Balance(USDC_ADDRESS, mcNexus.addressOn(base.id, true))
   );
 };
 

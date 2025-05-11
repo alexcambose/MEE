@@ -2,6 +2,8 @@
 
 This project demonstrates the Biconomy Modular Execution Environment (MEE) by executing a supertransaction that interacts with the AAVE protocol on the **Base** network.
 
+[![Demo](./demo.mov)](./demo.mov)
+
 ## Overview
 
 The demo executes the following transactions in a single supertransaction:
@@ -43,12 +45,12 @@ MEE_PRIVATE_KEY=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff
 FORK_URL=https://base-mainnet.infura.io/v3/3d34edbc36a84d62b747b3a972977ada
 ```
 
-## Running the Demo
+## Running the Script
 
 1. Start the local blockchain and MEE node:
 
 ```bash
-./start.sh
+npm run up
 ```
 
 This script will:
@@ -57,7 +59,9 @@ This script will:
 - Launch the MEE node using Docker Compose
 - Display the Anvil logs
 
-2. Run the demo:
+> Note if you have permission issues, please run `chmod +x start.sh`.
+
+2. Run the script:
 
 ```bash
 npm start
@@ -83,7 +87,7 @@ npm start
 
 1. **Local Blockchain Setup**
 
-   - Uses Anvil to fork Base mainnet
+   - Uses Anvil to fork **Base** mainnet
    - Provides access to all deployed contracts including AAVE Pool
 
 2. **MEE Node Setup**
@@ -94,10 +98,10 @@ npm start
 3. **Test Account Setup**
 
    - Creates a test EOA with USDC
-   - Uses Anvil's impersonation feature to fund the account from an address with funds
+   - Uses Anvil's impersonation feature/rpc calls to fund the account from an address with funds
 
 4. **Supertransaction Execution**
-   - Initializes the Biconomy abstract.js SDK
+   - Initializes the Biconomy SDK
    - Creates a sequence of transactions:
      1. USDC transfer to Nexus
      2. USDC supply to AAVE
