@@ -1,0 +1,14 @@
+{
+  "name": "Ethereum",
+  "rpc": "https://mainnet.infura.io/v3/7fc44212c21e460c83a5849c954e5b3a",
+  "isTestChain": false,
+  "chainId": "1",
+  "type": "evm",
+  "eip1559": true,
+  "price": {
+    "chainId": "1",
+    "oracle": "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419"
+  },
+  "handleOpsDeposit": "0.025",
+  "paymentTokens": []
+}

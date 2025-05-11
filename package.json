@@ -1,0 +1,32 @@
+{
+  "name": "test2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "tsx ./src/main.ts",
+    "up": "./start.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexcambose/MEE.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexcambose/MEE/issues"
+  },
+  "homepage": "https://github.com/alexcambose/MEE#readme",
+  "dependencies": {
+    "@biconomy/abstractjs": "^1.0.10",
+    "@rhinestone/module-sdk": "^0.2.7",
+    "chalk": "^5.4.1",
+    "dotenv": "^16.5.0",
+    "viem": "^2.29.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.17",
+    "tsx": "^4.19.4"
+  }
+}
