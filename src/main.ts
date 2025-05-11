@@ -26,7 +26,12 @@ import {
   RPC_URL,
   USDC_ADDRESS,
 } from './constants.ts';
-import { fundEoaWithUsdc, getErc20Balance, transferUsdc } from './utils.ts';
+import {
+  fundEoaWithUsdc,
+  getErc20Balance,
+  printAUSDCBalances,
+  transferUsdc,
+} from './utils.ts';
 
 const initEoa = async () => {
   const EOA_MIN_USDC_BALANCE = 1000;
@@ -89,20 +94,6 @@ const initNexus = async (walletClient: WalletClient) => {
   }
   console.log(chalk.blueBright(`Nexus USDC Balance: ${nexusUSDCBalance} USDC`));
   return { mcNexus, meeClient };
-};
-
-const printAUSDCBalances = async (
-  eoaAddress: Address,
-  nexusAddress: Address
-) => {
-  const [eoaUSDCBalance, nexusUSDCBalance] = await Promise.all([
-    getErc20Balance(AUSDC_ADDRESS, eoaAddress),
-    getErc20Balance(AUSDC_ADDRESS, nexusAddress),
-  ]);
-  console.log(chalk.cyanBright(`EOA aUSDC Balance: ${eoaUSDCBalance} aUSDC`));
-  console.log(
-    chalk.cyanBright(`Nexus aUSDC Balance: ${nexusUSDCBalance} aUSDC`)
-  );
 };
 
 const main = async () => {

@@ -2,11 +2,13 @@ import { Account, Address, createWalletClient, http, WalletClient } from 'viem';
 import { base } from 'viem/chains';
 import { publicClient } from './client';
 import {
+  AUSDC_ADDRESS,
   ERC20_ABI,
   RPC_URL,
   USDC_ADDRESS,
   USDC_WHALE_ADDRESS,
 } from './constants';
+import chalk from 'chalk';
 
 /**
  * Returns the balance of an ERC20 token for a given address.
@@ -112,3 +114,22 @@ export async function fundEoaWithUsdc(eoaAddress: Address, usdcAmount: number) {
     });
   }
 }
+
+/**
+ * Print the balance of aUSDC for the EOA and Nexus
+ * @param eoaAddress - The address of the EOA
+ * @param nexusAddress - The address of the Nexus
+ */
+export const printAUSDCBalances = async (
+  eoaAddress: Address,
+  nexusAddress: Address
+) => {
+  const [eoaUSDCBalance, nexusUSDCBalance] = await Promise.all([
+    getErc20Balance(AUSDC_ADDRESS, eoaAddress),
+    getErc20Balance(AUSDC_ADDRESS, nexusAddress),
+  ]);
+  console.log(chalk.cyanBright(`EOA aUSDC Balance: ${eoaUSDCBalance} aUSDC`));
+  console.log(
+    chalk.cyanBright(`Nexus aUSDC Balance: ${nexusUSDCBalance} aUSDC`)
+  );
+};
