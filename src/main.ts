@@ -150,7 +150,7 @@ const main = async () => {
    * TX #2
    * Supply USDC to Aave
    */
-  const supplyUsdtToAAVE = await mcNexus.buildComposable({
+  const supplyUsdcToAAVE = await mcNexus.buildComposable({
     type: 'default',
     data: {
       abi: AavePoolAbi,
@@ -195,7 +195,7 @@ const main = async () => {
       // TX #1
       approveAAVEtoSpendUSDC,
       // TX #2
-      supplyUsdtToAAVE,
+      supplyUsdcToAAVE,
       // TX #3
       moveAUSDCBackToEOA,
     ],
@@ -226,6 +226,12 @@ const main = async () => {
   await printAUSDCBalances(
     eoaAccount.address,
     mcNexus.addressOn(base.id, true)
+  );
+  console.log(
+    'EOA USDC Balance:',
+    await getErc20Balance(USDC_ADDRESS, eoaAccount.address),
+    'Nexus USDC Balance:',
+    await getErc20Balance(USDC_ADDRESS, mcNexus.addressOn(base.id, true))
   );
 };
 
