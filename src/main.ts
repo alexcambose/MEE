@@ -33,6 +33,11 @@ import {
   transferUsdc,
 } from './utils.ts';
 
+/**
+ * Initialize the EOA
+ * 1. Make sure the EOA has enough USDC
+ * 2. Return a wallet client for the EOA
+ */
 const initEoa = async () => {
   const EOA_MIN_USDC_BALANCE = 1000;
 
@@ -63,6 +68,11 @@ const initEoa = async () => {
   return walletClient;
 };
 
+/**
+ * Initialize the Nexus
+ * 1. Transfer USDC from the EOA to the Nexus
+ * 2. Return a multichain Nexus account and ME Client
+ */
 const initNexus = async (walletClient: WalletClient) => {
   const account = walletClient.account as PrivateKeyAccount;
   if (!account) {
