@@ -30,7 +30,6 @@ import {
   fundEoaWithUsdc,
   getErc20Balance,
   printAUSDCBalances,
-  transferUsdc,
 } from './utils.ts';
 
 /**
@@ -94,15 +93,6 @@ const initNexus = async (walletClient: WalletClient) => {
     throw new Error('Nexus address is undefined');
   }
   console.log(chalk.blueBright(`Nexus Address: ${nexusAddress}`));
-  let nexusUSDCBalance = await getErc20Balance(USDC_ADDRESS, nexusAddress);
-
-  if (nexusUSDCBalance == 0) {
-    console.log('Transferring USDC to Nexus...');
-    await transferUsdc(walletClient, nexusAddress, 100);
-    console.log('USDC transferred to Nexus');
-    nexusUSDCBalance = await getErc20Balance(USDC_ADDRESS, nexusAddress);
-  }
-  console.log(chalk.blueBright(`Nexus USDC Balance: ${nexusUSDCBalance} USDC`));
   return { mcNexus, meeClient };
 };
 
@@ -228,6 +218,8 @@ const main = async () => {
     eoaAccount.address,
     mcNexus.addressOn(base.id, true)
   );
+  const eoaBalance = await getErc20Balance(USDC_ADDRESS, eoaAccount.address);
+  console.log(chalk.blueBright(`EOA USDC Balance: ${eoaBalance} USDC`));
 };
 
 (async () => {

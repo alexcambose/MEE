@@ -32,38 +32,6 @@ export async function getErc20Balance(erc20Address: Address, address: Address) {
   ]);
   return Number(rawBalance) / 10 ** Number(decimals);
 }
-/**
- * Transfer USDC from the EOA to the smart wallet
- * @param walletClient - The wallet client to use
- * @param to - The address to transfer the USDC to
- * @param amount - The amount of USDC to transfer
- * @returns The hash of the transaction
- */
-export async function transferUsdc(
-  walletClient: WalletClient,
-  to: Address,
-  amount: number
-) {
-  // Get decimals to convert human-readable amount to raw
-  const decimals = await publicClient.readContract({
-    address: USDC_ADDRESS,
-    abi: ERC20_ABI,
-    functionName: 'decimals',
-  });
-  const rawAmount = BigInt(Math.floor(Number(amount) * 10 ** Number(decimals)));
-
-  // Send transfer transaction
-  const hash = await walletClient.writeContract({
-    account: walletClient.account as Account,
-    address: USDC_ADDRESS,
-    abi: ERC20_ABI,
-    functionName: 'transfer',
-    args: [to, rawAmount],
-    chain: base,
-  });
-
-  return hash;
-}
 
 /**
  * Fund the EOA with USDC from a whale address via impersonation
