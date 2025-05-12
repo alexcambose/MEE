@@ -65,6 +65,12 @@ export async function transferUsdc(
   return hash;
 }
 
+/**
+ * Fund the EOA with USDC from a whale address via impersonation
+ * @param eoaAddress - The address of the EOA
+ * @param usdcAmount - The amount of USDC to fund the EOA with
+ * @returns The hash of the transaction
+ */
 export async function fundEoaWithUsdc(eoaAddress: Address, usdcAmount: number) {
   try {
     // 1. Check EOA USDC balance
@@ -95,12 +101,6 @@ export async function fundEoaWithUsdc(eoaAddress: Address, usdcAmount: number) {
       args: [eoaAddress, BigInt(amount)],
       account: USDC_WHALE_ADDRESS,
       chain: base,
-    });
-
-    // 5. Stop impersonating
-    await publicClient.request({
-      method: 'anvil_stopImpersonatingAccount',
-      params: [USDC_WHALE_ADDRESS],
     });
 
     return txHash;

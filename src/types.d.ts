@@ -1,6 +1,6 @@
 import { PublicClient } from 'viem';
 
-// Extend the PublicClient type to include Anvil methods
+// Extend the PublicClient type to include the Anvil methods to impersonate and stop impersonating an account
 export type AnvilPublicClient = PublicClient & {
   request: {
     (args: {
